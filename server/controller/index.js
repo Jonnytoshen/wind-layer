@@ -159,7 +159,9 @@ const grib2json = (path_, options) => {
  * @returns {Promise<void>}
  */
 const getData = async (ctx, next) => {
-  const _time = (ctx.query.time && moment.utc(moment(parseInt(ctx.query.time))));
+  // const _time = (ctx.query.time && moment.utc(moment(parseInt(ctx.query.time))));
+  // https://www.nco.ncep.noaa.gov/pmb/nwprod/prodstat/index.html#TARGET
+  const _time = (ctx.query.time && moment.utc(moment(parseInt(ctx.query.time))).utcOffset(-6));
   try {
     const isValid = utils.checkTime(_time);
     if (isValid) {
@@ -261,12 +263,12 @@ const fetchGribData = params => {
             url: config.serviceUrl,
             responseType: 'stream',
             params: Object.assign({
-              file: 'gfs.t' + hours + 'z.pgrb2.1p00.f000',
+              file: 'gfs.t' + hours + 'z.pgrb2.0p25.f000',
               leftlon: config.extent[0], // 经度
               rightlon: config.extent[2],
               toplat: config.extent[3], // 纬度
               bottomlat: config.extent[1],
-              dir: '/gfs.' + stamp2
+              dir: '/gfs.' + stamp2 + '/atmos'
             }, config.requestParams)
           }).then(response => {
             console.log(response)

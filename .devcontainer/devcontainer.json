@@ -1,0 +1,27 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.195.0/containers/java
+{
+  "name": "wind-layer",
+  "build": {
+    "dockerfile": "Dockerfile",
+		"args": {
+			// Update the VARIANT arg to pick a Java version: 11, 16
+			// Append -bullseye or -buster to pin to an OS version.
+			// Use the -bullseye variants if you are on arm64/Apple Silicon.
+			"VARIANT": "0-8-jdk-buster",
+			// Options
+			"INSTALL_MAVEN": "false",
+			"INSTALL_GRADLE": "false",
+			"NODE_VERSION": "lts/*"
+		}
+  },
+  // 容器启动时，使用vscode用户进行登录。（vscode用户在Dockerfile中创建）
+  "runArgs": ["-u", "vscode"], 
+  "postCreateCommand": "yarn --only=prod --registry=https://registry.npm.taobao.org",
+  "settings": {},
+  "extensions": [
+		"dbaeumer.vscode-eslint",
+		"PKief.material-icon-theme",
+		"ms-azuretools.vscode-docker"
+	],
+}
